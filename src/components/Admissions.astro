@@ -1,0 +1,168 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { pathFor } from '../i18n/ui';
+
+interface Props {
+  locale: 'es' | 'en';
+}
+
+const { locale } = Astro.props as Props;
+const en = locale === 'en';
+const contactPath = pathFor(locale, '/contacto/');
+
+const steps = en
+  ? [
+      { number: '01', title: 'Explore the program', text: 'Tell us what you are looking for and ask about our educational proposal.' },
+      { number: '02', title: 'Arrange a visit', text: 'Coordinate a time to see the school, its spaces and the way we learn together.' },
+      { number: '03', title: 'Learn what comes next', text: 'Ask about the requirements and current availability for the level you are considering.' },
+    ]
+  : [
+      { number: '01', title: 'Consultar la propuesta', text: 'Contanos qué estás buscando y preguntá por nuestra propuesta educativa.' },
+      { number: '02', title: 'Coordinar una visita', text: 'Agendá un momento para conocer el colegio, sus espacios y nuestra forma de aprender.' },
+      { number: '03', title: 'Conocer requisitos y disponibilidad', text: 'Consultá los requisitos y la disponibilidad actual para el nivel que estás considerando.' },
+    ];
+
+const faqs = en
+  ? [
+      { question: 'Which levels does the school offer?', answer: 'We welcome families interested in Nursery, Early years and Primary. Contact us to talk through the level that fits your child.' },
+      { question: 'How can I ask about availability?', answer: 'Write to admissions by WhatsApp or email. The team can share the current information for the level you are considering.' },
+      { question: 'What should I ask during a visit?', answer: 'You can ask about schedules for each level, requirements and fees, as well as anything that matters to your family.' },
+      { question: 'Where is the school?', answer: 'Address to be confirmed with the school.' },
+    ]
+  : [
+      { question: '¿Qué niveles ofrece el colegio?', answer: 'Acompañamos a familias interesadas en Maternal, Inicial y Primaria. Escribinos para conversar sobre el nivel de tu hijo o hija.' },
+      { question: '¿Cómo consulto por cupos?', answer: 'Podés escribir a admisiones por WhatsApp o correo. El equipo te comparte la información actual para el nivel que estás considerando.' },
+      { question: '¿Qué conviene preguntar durante la visita?', answer: 'Podés consultar por los horarios de cada nivel, requisitos y aranceles, además de todo lo que sea importante para tu familia.' },
+      { question: '¿Dónde queda el colegio?', answer: 'Dirección a confirmar con el colegio.' },
+    ];
+---
+
+<Layout
+  title={en ? 'Admissions' : 'Admisiones'}
+  description={en ? 'Learn about the next steps to get to know Colegio Bilingüe de Minas and ask about admissions.' : 'Conocé los próximos pasos para acercarte al Colegio Bilingüe de Minas y consultar por admisiones.'}
+  locale={locale}
+>
+  <section class="page-intro admissions-intro">
+    <div class="container">
+      <nav class="breadcrumb" aria-label={en ? 'Breadcrumb' : 'Migas de pan'}>
+        <a href={pathFor(locale, '/')}>{en ? 'Home' : 'Inicio'}</a>
+        <span aria-hidden="true">/</span>
+        <span>{en ? 'Admissions' : 'Admisiones'}</span>
+      </nav>
+      <div class="intro-copy stack">
+        <span class="eyebrow">{en ? 'Admissions' : 'Admisiones'}</span>
+        <h1>{en ? 'Choosing a school starts with getting to know each other.' : 'Elegir un colegio empieza por conocernos.'}</h1>
+        <p class="lead">{en ? 'We are here to answer your questions, share our educational proposal and help you take the next step for your family.' : 'Estamos para responder tus preguntas, compartir nuestra propuesta educativa y acompañarte en el próximo paso para tu familia.'}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section steps-section">
+    <div class="container">
+      <div class="section-heading">
+        <div class="stack">
+          <span class="eyebrow">{en ? 'A first conversation' : 'Una primera conversación'}</span>
+          <h2>{en ? 'Three simple ways to start.' : 'Tres formas sencillas de empezar.'}</h2>
+        </div>
+        <p class="lead section-heading-copy">{en ? 'Every family starts from a different place. We can help you find the information you need.' : 'Cada familia parte de un lugar distinto. Podemos ayudarte a encontrar la información que necesitás.'}</p>
+      </div>
+      <div class="grid grid--3 step-grid">
+        {steps.map((step) => (
+          <article class="step-card card">
+            <span class="step-number" aria-hidden="true">{step.number}</span>
+            <div class="stack step-content">
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark consultation-section">
+    <div class="container consultation-grid">
+      <div class="stack consultation-copy">
+        <span class="eyebrow">{en ? 'Let’s talk' : 'Hablemos'}</span>
+        <h2>{en ? 'Tell us what you are looking for.' : 'Contanos qué estás buscando.'}</h2>
+        <p class="lead">{en ? 'Send us a message or call to discuss our program and availability.' : 'Escribinos o llamanos para conversar sobre la propuesta y la disponibilidad.'}</p>
+        <div class="actions">
+          <a class="btn btn--primary" href={contactPath}>{en ? 'See contact options' : 'Ver formas de contacto'} <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="consultation-details">
+        <div class="contact-detail">
+          <span class="detail-label">{en ? 'Admissions' : 'Admisiones'}</span>
+          <strong>{en ? '[to be confirmed]' : '[a confirmar]'}</strong>
+        </div>
+        <div class="contact-detail">
+          <span class="detail-label">{en ? 'Email' : 'Correo'}</span>
+          <strong class="email">{en ? '[to be confirmed]' : '[a confirmar]'}</strong>
+        </div>
+        <a class="text-link consultation-link" href={contactPath}>{en ? 'See all contact details' : 'Ver todos los datos de contacto'} <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq-section">
+    <div class="container faq-grid">
+      <div class="stack faq-heading">
+        <span class="eyebrow">{en ? 'Questions we often hear' : 'Preguntas frecuentes'}</span>
+        <h2>{en ? 'Start with what matters to you.' : 'Empezá por lo que necesitás saber.'}</h2>
+        <p class="lead">{en ? 'If your question is not here, get in touch and we will help you find the answer.' : 'Si tu pregunta no aparece acá, escribinos y te ayudamos a encontrar la respuesta.'}</p>
+      </div>
+      <div class="faq-list">
+        {faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}<span aria-hidden="true">+</span></summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .admissions-intro .intro-copy { max-width: 930px; gap: 20px; }
+  .admissions-intro h1 { max-width: 900px; }
+  .admissions-intro .lead { max-width: 680px; }
+  .section-heading-copy { max-width: 350px; font-size: 15px; }
+  .step-grid { align-items: stretch; }
+  .step-card { display: flex; flex-direction: column; gap: 30px; min-height: 265px; }
+  .step-number { color: var(--accent); font-family: var(--font-display); font-size: 2.5rem; letter-spacing: -.05em; line-height: 1; }
+  .step-content { gap: 12px; }
+  .step-content h3 { font-size: 1.55rem; }
+  .step-content p { color: var(--ink-soft); font-size: 15px; }
+  .consultation-section { padding: 84px 0; }
+  .consultation-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 80px; align-items: end; }
+  .consultation-copy { max-width: 620px; gap: 18px; }
+  .consultation-copy h2 { max-width: 560px; }
+  .consultation-copy .lead { max-width: 570px; }
+  .consultation-details { border-top: 1px solid #8d6773; }
+  .contact-detail { display: flex; flex-direction: column; gap: 6px; padding: 19px 0; border-bottom: 1px solid #8d6773; }
+  .detail-label { color: var(--accent-light); font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .contact-detail strong { font-size: 17px; font-weight: 500; overflow-wrap: anywhere; }
+  .consultation-link { margin-top: 18px; color: var(--cream); }
+  .consultation-link:hover { color: var(--accent-light); }
+  .faq-grid { display: grid; grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr); gap: 100px; align-items: start; }
+  .faq-heading { max-width: 450px; gap: 18px; }
+  .faq-list { border-top: 1px solid var(--border); }
+  details { border-bottom: 1px solid var(--border); }
+  summary { display: flex; align-items: center; justify-content: space-between; gap: 25px; padding: 23px 0; cursor: pointer; list-style: none; font-family: var(--font-display); font-size: 1.35rem; line-height: 1.25; }
+  summary::-webkit-details-marker { display: none; }
+  summary span { color: var(--accent); font-family: var(--font-sans); font-size: 25px; font-weight: 400; line-height: 1; transition: transform .2s ease; }
+  details[open] summary span { transform: rotate(45deg); }
+  details p { max-width: 650px; padding: 0 45px 24px 0; color: var(--ink-soft); font-size: 15px; }
+  @media (max-width: 850px) {
+    .consultation-grid, .faq-grid { grid-template-columns: 1fr; gap: 45px; }
+    .faq-grid { gap: 35px; }
+  }
+  @media (max-width: 700px) {
+    .section-heading-copy { max-width: 520px; }
+    .step-card { min-height: 0; }
+    .consultation-section { padding: 60px 0; }
+    summary { font-size: 1.18rem; }
+  }
+</style>
+

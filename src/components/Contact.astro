@@ -1,0 +1,111 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { pathFor } from '../i18n/ui';
+
+interface Props {
+  locale: 'es' | 'en';
+}
+
+const { locale } = Astro.props as Props;
+const en = locale === 'en';
+const address = en ? '[Address to be confirmed]' : '[Dirección a confirmar]';
+---
+
+<Layout
+  title={en ? 'Contact' : 'Contacto'}
+  description={en ? 'Contact Colegio Bilingüe de Minas in Minas, Lavalleja, Uruguay. Find our address, phone numbers, email and map.' : 'Contactá al Colegio Bilingüe de Minas en Minas, Lavalleja, Uruguay. Encontrá nuestra dirección, teléfonos, correo y mapa.'}
+  locale={locale}
+>
+  <section class="page-intro contact-intro">
+    <div class="container">
+      <nav class="breadcrumb" aria-label={en ? 'Breadcrumb' : 'Migas de pan'}>
+        <a href={pathFor(locale, '/')}>{en ? 'Home' : 'Inicio'}</a>
+        <span aria-hidden="true">/</span>
+        <span>{en ? 'Contact' : 'Contacto'}</span>
+      </nav>
+      <div class="intro-copy stack">
+        <span class="eyebrow">{en ? 'Contact' : 'Contacto'}</span>
+        <h1>{en ? 'Let’s keep in touch.' : 'Hablemos.'}</h1>
+        <p class="lead">{en ? 'Questions about the school, our proposal or admissions? We would be glad to hear from you.' : '¿Tenés preguntas sobre el colegio, la propuesta o las admisiones? Nos encantará escucharte.'}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact-section">
+    <div class="container contact-layout">
+      <div class="contact-content stack">
+        <div class="grid grid--2 contact-cards">
+          <div class="contact-card card">
+            <span class="card-label">{en ? 'Main phone' : 'Teléfono'}</span>
+            <strong>{en ? '[to be confirmed]' : '[a confirmar]'}</strong>
+          </div>
+          <div class="contact-card card">
+            <span class="card-label">{en ? 'Admissions' : 'Admisiones'}</span>
+            <strong>{en ? '[to be confirmed]' : '[a confirmar]'}</strong>
+          </div>
+          <div class="contact-card card contact-card--wide">
+            <span class="card-label">{en ? 'Email' : 'Correo'}</span>
+            <strong class="email">{en ? '[to be confirmed]' : '[a confirmar]'}</strong>
+          </div>
+        </div>
+        <div class="address-card card">
+          <div class="address-copy stack">
+            <span class="card-label">{en ? 'Visit us' : 'Visitanos'}</span>
+            <h2>{en ? 'Find us in Minas.' : 'Encontranos en Minas.'}</h2>
+            <address>{address}</address>
+          </div>
+        </div>
+        <div class="social-row">
+          <span class="card-label">{en ? 'Follow along' : 'Seguinos'}</span>
+          <div class="actions">
+            <span class="text-link">{en ? 'Social links to be confirmed' : 'Redes a confirmar'}</span>
+          </div>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <div class="map-embed map-placeholder">{en ? 'Map (added once the address is confirmed)' : 'Mapa (se agrega al confirmar la dirección)'}</div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .contact-intro .intro-copy { max-width: 780px; gap: 20px; }
+  .contact-intro .lead { max-width: 600px; }
+  .contact-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, .9fr); gap: 72px; align-items: start; }
+  .contact-content { gap: 28px; }
+  .contact-cards { gap: 16px; }
+  .contact-card { display: flex; flex-direction: column; align-items: flex-start; gap: 9px; min-height: 180px; transition: border-color .2s ease, transform .2s ease; }
+  .contact-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .contact-card--wide { grid-column: 1 / -1; min-height: 150px; }
+  .card-icon { align-self: flex-end; color: var(--accent); font-size: 19px; }
+  .card-label { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .contact-card strong { font-family: var(--font-display); font-size: 1.45rem; font-weight: 400; line-height: 1.2; overflow-wrap: anywhere; }
+  .contact-card .email { font-family: var(--font-sans); font-size: 1rem; font-weight: 600; }
+  .card-action { margin-top: auto; color: var(--ink-soft); font-size: 13px; }
+  .address-card { display: flex; align-items: end; justify-content: space-between; gap: 25px; padding: 28px 32px; }
+  .address-copy { gap: 10px; }
+  .address-copy h2 { font-size: 1.7rem; }
+  address { color: var(--ink-soft); font-size: 15px; font-style: normal; line-height: 1.6; }
+  .address-card .btn { flex-shrink: 0; }
+  .social-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 4px 3px; }
+  .social-row .actions { gap: 28px; }
+  .map-wrap { position: sticky; top: 125px; }
+  .map-embed { display: block; width: 100%; min-height: 585px; border: 0; border-radius: 16px; background: var(--cream-2); }
+  .map-placeholder { display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; color: var(--muted); font-size: 14px; }
+  .map-caption { padding-top: 12px; color: var(--muted); font-size: 12px; }
+  @media (max-width: 1050px) {
+    .contact-layout { grid-template-columns: 1fr; gap: 45px; }
+    .map-wrap { position: static; }
+    .map-embed { min-height: 430px; }
+  }
+  @media (max-width: 700px) {
+    .contact-cards { grid-template-columns: 1fr; }
+    .contact-card--wide { grid-column: auto; }
+    .address-card { align-items: start; flex-direction: column; padding: 24px; }
+    .address-card .btn { width: 100%; }
+    .social-row { align-items: start; flex-direction: column; }
+    .social-row .actions { gap: 22px; }
+    .map-embed { min-height: 360px; border-radius: 12px; }
+  }
+</style>

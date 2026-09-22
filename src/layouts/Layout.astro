@@ -1,0 +1,54 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { pathFor, withBase, type Locale } from '../i18n/ui';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  locale?: Locale;
+}
+
+const { title, description, locale = 'es' } = Astro.props;
+const siteName = locale === 'es' ? 'Colegio Bilingüe de Minas' : 'Bilingual School of Minas';
+const siteUrl = Astro.site?.toString().replace(/\/$/, '');
+const currentPath = Astro.url.pathname;
+const pathWithoutLocale = locale === 'en' ? currentPath.replace(/^\/en/, '') || '/' : currentPath;
+const canonicalPath = pathFor(locale, pathWithoutLocale);
+const canonicalUrl = siteUrl ? new URL(canonicalPath, `${siteUrl}/`).toString() : undefined;
+const alternateEs = siteUrl ? new URL(pathFor('es', pathWithoutLocale), `${siteUrl}/`).toString() : undefined;
+const alternateEn = siteUrl ? new URL(pathFor('en', pathWithoutLocale), `${siteUrl}/`).toString() : undefined;
+const socialImage = undefined;
+---
+<!doctype html>
+<html lang={locale}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} | {siteName}</title>
+  <meta name="description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={`${title} | ${siteName}`} />
+  <meta property="og:description" content={description} />
+  {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+  {socialImage && <meta property="og:image" content={socialImage} />}
+  <meta name="twitter:card" content={socialImage ? 'summary_large_image' : 'summary'} />
+  <meta name="twitter:title" content={`${title} | ${siteName}`} />
+  <meta name="twitter:description" content={description} />
+  {socialImage && <meta name="twitter:image" content={socialImage} />}
+  {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+  {alternateEs && <link rel="alternate" hreflang="es" href={alternateEs} />}
+  {alternateEn && <link rel="alternate" hreflang="en" href={alternateEn} />}
+  {canonicalUrl && <link rel="alternate" hreflang="x-default" href={alternateEs} />}
+  <link rel="icon" href={withBase('/favicon.svg')} />
+</head>
+<body>
+  <a class="skip-link" href="#contenido">{locale === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
+  <Header locale={locale} />
+  <main id="contenido">
+    <slot />
+  </main>
+  <Footer locale={locale} />
+</body>
+</html>

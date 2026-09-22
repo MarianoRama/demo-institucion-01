@@ -1,0 +1,6 @@
+---
+import {pathFor,type Locale} from '../i18n/ui';
+const {locale='es'}=Astro.props as {locale:Locale};const en=locale==='en';
+---
+<section class="visit section--dark"><div class="container visit-inner"><div class="stack"><span class="eyebrow">{en?'Your next chapter starts here':'El próximo paso empieza acá'}</span><h2>{en?'Let’s get to know each other.':'Conocernos es el primer paso.'}</h2><p class="lead">{en?'Tell us about your family. Ask about our program, availability and a visit to the school.':'Contanos qué estás buscando para tu familia. Consultá por la propuesta, los cupos y una visita al colegio.'}</p></div><a href={pathFor(locale,'/admisiones/')} class="btn btn--primary">{en?'Enquire about admissions':'Consultar por admisiones'} <span aria-hidden="true">↗</span></a></div></section>
+<style>.visit{padding:68px 0}.visit-inner{display:flex;gap:60px;align-items:center;justify-content:space-between}.stack{max-width:700px}.visit h2{font-size:clamp(2.1rem,3.4vw,3.2rem)}.visit .lead{max-width:590px;font-size:15px}.visit .btn{flex-shrink:0}@media(max-width:850px){.visit-inner{align-items:start;flex-direction:column;gap:28px}.visit{padding:48px 0}}</style>

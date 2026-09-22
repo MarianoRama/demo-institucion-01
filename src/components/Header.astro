@@ -1,0 +1,30 @@
+---
+import {ui,pathFor,stripBase,type Locale} from '../i18n/ui';
+const {locale} = Astro.props as {locale:Locale};
+const en=locale==='en',t=ui[locale].nav;
+const unbased=stripBase(Astro.url.pathname);
+const path=unbased.replace(/\/$/,'')||'/';
+const links=[['/nosotros/',t.nosotros],['/propuesta-educativa/',t.propuestaCorta],['/actividades/',t.actividades],['/galeria/',t.galeria],['/contacto/',t.contacto]];
+const localPath=en?unbased.replace(/^\/en/,'')||'/':unbased;
+---
+<div class="utility"><div class="container"><span>{en?'Demo preview':'Vista previa de demostración'}</span><a href={pathFor(locale,'/contacto/')}>{en?'Let’s talk':'Hablemos'} <span>↗</span></a></div></div>
+<header class="site-header">
+ <div class="container header-inner">
+  <a href={pathFor(locale,'/')} class="brand" aria-label={en?'Colegio Bilingüe de Minas — Home':'Colegio Bilingüe de Minas — Inicio'}><span class="brand-mark" aria-hidden="true">✳</span><span>Colegio Bilingüe<small>DE MINAS</small></span></a>
+  <nav class="desktop-nav" aria-label={en?'Main navigation':'Navegación principal'}>{links.map(([href,label])=><a href={pathFor(locale,href)} aria-current={path===stripBase(pathFor(locale,href)).replace(/\/$/,'')?'page':undefined}>{label}</a>)}</nav>
+  <div class="header-actions"><div class="language" aria-label={en?'Language':'Idioma'}><a href={pathFor('es',localPath)} lang="es" aria-current={!en?'true':undefined}>ES</a><span>/</span><a href={pathFor('en',localPath)} lang="en" aria-current={en?'true':undefined}>EN</a></div><a class="btn btn--primary admission" href={pathFor(locale,'/admisiones/')}>{t.admisiones} <span aria-hidden="true">↗</span></a><button id="navToggle" class="nav-toggle" aria-controls="navMobile" aria-expanded="false" aria-label={en?'Open menu':'Abrir menú'} data-open={en?'Open menu':'Abrir menú'} data-close={en?'Close menu':'Cerrar menú'}><span></span><span></span></button></div>
+ </div>
+ <nav id="navMobile" class="mobile-nav" aria-label={en?'Mobile navigation':'Navegación móvil'} hidden><a href={pathFor(locale,'/')}>{t.inicio}</a>{links.map(([href,label])=><a href={pathFor(locale,href)} aria-current={path===stripBase(pathFor(locale,href)).replace(/\/$/,'')?'page':undefined}>{label}<span aria-hidden="true">↗</span></a>)}<a href={pathFor(locale,'/admisiones/')}>{t.admisiones} ↗</a></nav>
+</header>
+<style>
+.utility{background:var(--accent-dark);color:#efdfdd;font-size:10px;letter-spacing:.04em;padding:9px 0}.utility .container{display:flex;justify-content:space-between}.utility a{display:flex;gap:18px}.site-header{position:sticky;top:0;z-index:50;background:rgba(250,248,242,.97);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}.header-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:91px}.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}.brand-mark{font-size:32px;color:var(--accent);line-height:1;width:45px;text-align:center}.brand>span{font-family:var(--font-display);font-size:20px;letter-spacing:-.6px;line-height:1.1}.brand small{display:block;font-family:var(--font-sans);font-size:9px;letter-spacing:.26em;margin-top:7px}.desktop-nav{display:flex;gap:25px}.desktop-nav>a{font-size:12px;padding:12px 0;border-bottom:1px solid transparent}.desktop-nav>a:hover,.desktop-nav>a[aria-current]{color:var(--accent);border-color:var(--accent)}.header-actions{display:flex;gap:24px;align-items:center}.language{display:flex;gap:8px;align-items:center;font-size:11px;color:var(--muted)}.language a{padding:12px 2px}.language a[aria-current]{color:var(--accent);font-weight:700}.admission{min-height:44px;padding:12px 19px;font-size:12px}.nav-toggle{display:none;width:44px;height:44px;border:1px solid var(--border);border-radius:6px;background:none;padding:11px}.nav-toggle span{display:block;height:1px;background:var(--accent);margin:6px 0}.mobile-nav[hidden]{display:none}.mobile-nav{padding:12px 24px 26px;max-height:calc(100dvh - 110px);overflow:auto}.mobile-nav a{display:flex;justify-content:space-between;padding:14px 4px;border-bottom:1px solid var(--border);font-size:16px}.mobile-nav [aria-current]{color:var(--accent);font-weight:700}
+@media(min-width:1101px){.mobile-nav{display:none}}@media(max-width:1100px){.desktop-nav{display:none}.nav-toggle{display:block}.header-inner{height:80px}}@media(max-width:600px){.utility{font-size:9px}.utility a{gap:8px}.utility a>span{display:none}.admission{display:none}.header-actions{gap:14px}.brand>span{font-size:17px}.brand-mark{width:36px;font-size:26px}.header-inner{height:74px;gap:12px}}
+</style>
+<script>
+const toggle=document.querySelector<HTMLButtonElement>('#navToggle');const menu=document.querySelector<HTMLElement>('#navMobile');
+function setOpen(open:boolean){if(!toggle||!menu)return;menu.hidden=!open;toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',(open?toggle.dataset.close:toggle.dataset.open)||'');}
+ toggle?.addEventListener('click',()=>setOpen(toggle.getAttribute('aria-expanded')!=='true'));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&toggle?.getAttribute('aria-expanded')==='true'){setOpen(false);toggle.focus();}});
+ document.addEventListener('click',e=>{if(e.target instanceof Node&&!document.querySelector('.site-header')?.contains(e.target))setOpen(false);});
+ matchMedia('(min-width:1101px)').addEventListener('change',e=>{if(e.matches)setOpen(false);});
+</script>

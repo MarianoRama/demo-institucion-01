@@ -1,0 +1,119 @@
+---
+import { pathFor, ui, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const year = new Date().getFullYear();
+
+const exploreLinks = [
+  { href: '/', label: t.nav.inicio },
+  { href: '/nosotros/', label: t.nav.nosotros },
+  { href: '/propuesta-educativa/', label: t.nav.propuesta },
+  { href: '/actividades/', label: t.nav.actividades },
+  { href: '/galeria/', label: t.nav.galeria },
+  { href: '/admisiones/', label: t.nav.admisiones },
+  { href: '/contacto/', label: t.nav.contacto },
+];
+---
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand stack">
+      <a href={pathFor(locale, '/')} class="footer-logo-link" aria-label={t.nav.inicio}>
+        <span class="footer-logo" aria-hidden="true">✳</span>
+      </a>
+      <p class="footer-title">Colegio Bilingüe de Minas</p>
+      <p class="footer-text">{t.footer.tagline}</p>
+    </div>
+
+    <nav class="footer-column stack" aria-label={locale === 'es' ? 'Explorar' : 'Explore'}>
+      <h2 class="footer-title">{locale === 'es' ? 'Explorar' : 'Explore'}</h2>
+      {exploreLinks.map(link => <a class="footer-link" href={pathFor(locale, link.href)}>{link.label}</a>)}
+    </nav>
+
+    <div class="footer-column stack">
+      <h2 class="footer-title">{t.footer.contacto}</h2>
+      <p class="footer-text">{locale === 'es' ? 'Datos de contacto a confirmar con el colegio.' : 'Contact details to be confirmed with the school.'}</p>
+    </div>
+
+    <div class="footer-column stack">
+      <h2 class="footer-title">{t.footer.seguinos}</h2>
+      <p class="footer-text">{locale === 'es' ? 'Redes sociales a confirmar.' : 'Social media to be confirmed.'}</p>
+    </div>
+  </div>
+  <div class="container footer-bottom-wrap">
+    <p class="footer-bottom">© {year} Colegio Bilingüe de Minas. {t.footer.rights}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--accent-dark);
+    padding: 72px 0 24px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr repeat(3, 1fr);
+    gap: 48px;
+    padding-bottom: 48px;
+  }
+  .footer-brand { max-width: 290px; }
+  .footer-logo-link { display: inline-flex; width: fit-content; }
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--cream);
+    font-size: 34px;
+    color: var(--accent);
+  }
+  .footer-title {
+    margin: 0;
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .footer-text,
+  .footer-address,
+  .footer-link {
+    color: rgba(250, 248, 242, 0.78);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .footer-text { margin: 0; }
+  .footer-address {
+    display: flex;
+    flex-direction: column;
+    font-style: normal;
+  }
+  .footer-link {
+    width: fit-content;
+    text-decoration: none;
+    transition: color 160ms ease;
+  }
+  .footer-link:hover,
+  .footer-link:focus-visible { color: var(--cream); }
+  .footer-column { gap: 8px; }
+  .footer-column .footer-title { margin-bottom: 8px; }
+  .footer-bottom-wrap { border-top: 1px solid rgba(250, 248, 242, 0.16); }
+  .footer-bottom {
+    margin: 0;
+    padding-top: 20px;
+    color: rgba(250, 248, 242, 0.58);
+    font-size: 13px;
+  }
+  @media (max-width: 900px) {
+    .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .site-footer { padding-top: 56px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>

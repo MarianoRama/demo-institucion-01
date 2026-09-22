@@ -1,0 +1,139 @@
+---
+import { withBase } from '../i18n/ui';
+interface Props {
+  slides: string[];
+  ratio?: string;
+  sampleLabel?: string;
+  label?: string;
+  alts?: string[];
+}
+const en = Astro.url.pathname.startsWith('/en');
+const { slides, ratio = '4 / 3', sampleLabel = en ? 'Sample photo' : 'Foto de muestra', label = en ? 'Life at school' : 'La vida en el colegio', alts = [] } = Astro.props;
+const words = en
+  ? { previous: 'Previous photo', next: 'Next photo', pause: 'Pause slideshow', play: 'Play slideshow', choose: 'Choose a photo', photo: 'Photo', of: 'of', carousel: 'carousel' }
+  : { previous: 'Foto anterior', next: 'Foto siguiente', pause: 'Pausar presentación', play: 'Reanudar presentación', choose: 'Elegir una foto', photo: 'Foto', of: 'de', carousel: 'carrusel' };
+function parse(slide: string) {
+  if (slide.startsWith('SAMPLE:')) return { kind: 'sample' as const, src: withBase(slide.slice(7)) };
+  if (slide.startsWith('/')) return { kind: 'real' as const, src: withBase(slide) };
+  return { kind: 'placeholder' as const, src: slide };
+}
+const descriptions: Record<string, string> = en ? {
+  'acto-escolar': 'A school celebration', campamento: 'School camping trip', paseo1: 'School outing', paseo2: 'An outdoor school outing',
+} : {
+  'acto-escolar': 'Celebración de un acto escolar', campamento: 'Campamento del colegio', paseo1: 'Paseo del colegio', paseo2: 'Salida del colegio al aire libre',
+};
+function imageAlt(src: string, index: number, sample: boolean) {
+  const key = src.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '';
+  return alts[index] || `${sample ? `${sampleLabel}: ` : ''}${descriptions[key] || label} — ${words.photo.toLowerCase()} ${index + 1}`;
+}
+---
+<div class="carousel" role="region" aria-roledescription={words.carousel} aria-label={label} data-pause={words.pause} data-play={words.play} data-photo={words.photo} data-of={words.of}>
+  <div class="carousel-track" style={`aspect-ratio: ${ratio};`}>
+    {slides.map((raw, i) => {
+      const slide = parse(raw);
+      return (
+        <div class:list={['carousel-slide', { 'carousel-placeholder': slide.kind === 'placeholder' }]} hidden={i !== 0} role="group" aria-label={`${words.photo} ${i + 1} ${words.of} ${slides.length}`}>
+          {slide.kind === 'placeholder' ? <span>{slide.src}</span> : (
+            <>
+              <img src={slide.src} alt={imageAlt(slide.src, i, slide.kind === 'sample')} class="carousel-img" loading="lazy" decoding="async" />
+              {slide.kind === 'sample' && <span class="sample-badge">{sampleLabel}</span>}
+            </>
+          )}
+        </div>
+      );
+    })}
+  </div>
+  {slides.length > 1 && (
+    <div class="carousel-controls" hidden>
+      <button type="button" class="carousel-arrow carousel-prev" aria-label={words.previous}><span aria-hidden="true">←</span></button>
+      <div class="carousel-dots" role="group" aria-label={words.choose}>
+        {slides.map((_, i) => <button type="button" class="carousel-dot" aria-label={`${words.photo} ${i + 1}`} aria-current={i === 0 ? 'true' : undefined}><span></span></button>)}
+      </div>
+      <button type="button" class="carousel-arrow carousel-next" aria-label={words.next}><span aria-hidden="true">→</span></button>
+      <button type="button" class="carousel-toggle" aria-label={words.pause}><span aria-hidden="true">Ⅱ</span></button>
+      <span class="carousel-status sr-only" aria-live="polite" aria-atomic="true"></span>
+    </div>
+  )}
+</div>
+
+<style>
+  .carousel { position: relative; border-radius: 20px; overflow: hidden; background: #f0e7db; border: 1px solid rgba(86, 31, 47, .1); }
+  .carousel-track { position: relative; width: 100%; }
+  .carousel-slide { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .carousel-slide[hidden], .carousel-controls[hidden] { display: none; }
+  .carousel-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .carousel-placeholder { display: grid; place-items: center; padding: 2rem; box-sizing: border-box; text-align: center; color: #653146; background: radial-gradient(ellipse at top, #fffaf2, #ecdfcf); }
+  .sample-badge { position: absolute; top: 14px; left: 14px; background: rgba(71, 25, 41, .93); color: #fff8ef; font: 600 .65rem/1.4 var(--font-sans, Arial, sans-serif); letter-spacing: .08em; text-transform: uppercase; padding: 7px 11px; border-radius: 20px; }
+  .carousel-controls { display: flex; align-items: center; justify-content: center; gap: 2px; padding: 5px 8px; background: #fffaf2; color: #562034; }
+  .carousel-controls button { min-width: 44px; min-height: 44px; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; display: inline-grid; place-items: center; padding: 0; flex-shrink: 0; }
+  .carousel-controls button:hover { background: #efe3d8; }
+  .carousel-controls button:focus-visible { outline: 3px solid #8a4c62; outline-offset: -3px; }
+  .carousel-arrow { font-size: 1.3rem; }
+  .carousel-dots { display: flex; flex-wrap: wrap; justify-content: center; }
+  .carousel-dot span { width: 6px; height: 6px; border-radius: 50%; background: #b7a49e; transition: width .2s ease; }
+  .carousel-dot[aria-current="true"] span { background: #63273c; width: 20px; border-radius: 6px; }
+  .carousel-toggle { margin-left: auto; font-size: 1rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+  @media (prefers-reduced-motion: reduce) { .carousel-dot span { transition: none; } }
+</style>
+
+<script>
+  function initCarousels() {
+    document.querySelectorAll<HTMLElement>('.carousel').forEach((carousel) => {
+      if (carousel.dataset.initialized) return;
+      carousel.dataset.initialized = 'true';
+      const slides = Array.from(carousel.querySelectorAll<HTMLElement>('.carousel-slide'));
+      if (slides.length < 2) return;
+      const controls = carousel.querySelector<HTMLElement>('.carousel-controls')!;
+      const dots = Array.from(carousel.querySelectorAll<HTMLButtonElement>('.carousel-dot'));
+      const toggle = carousel.querySelector<HTMLButtonElement>('.carousel-toggle')!;
+      const status = carousel.querySelector<HTMLElement>('.carousel-status')!;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let current = 0;
+      let paused = reducedMotion.matches;
+      let hovered = false;
+      let focused = false;
+      let timer: ReturnType<typeof setInterval> | undefined;
+      controls.hidden = false;
+      function show(index: number, announce = false) {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((slide, i) => { slide.hidden = i !== current; });
+        dots.forEach((dot, i) => { i === current ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current'); });
+        if (announce) status.textContent = `${carousel.dataset.photo} ${current + 1} ${carousel.dataset.of} ${slides.length}`;
+      }
+      function sync() {
+        clearInterval(timer);
+        timer = undefined;
+        toggle.setAttribute('aria-label', (paused ? carousel.dataset.play : carousel.dataset.pause)!);
+        toggle.querySelector('span')!.textContent = paused ? '▶' : 'Ⅱ';
+        if (!paused && !hovered && !focused && !document.hidden) timer = setInterval(() => show(current + 1), 5500);
+      }
+      function move(index: number) { show(index, true); sync(); }
+      carousel.querySelector('.carousel-prev')?.addEventListener('click', () => move(current - 1));
+      carousel.querySelector('.carousel-next')?.addEventListener('click', () => move(current + 1));
+      dots.forEach((dot, i) => dot.addEventListener('click', () => move(i)));
+      toggle.addEventListener('click', () => { paused = !paused; sync(); });
+      carousel.addEventListener('mouseenter', () => { hovered = true; sync(); });
+      carousel.addEventListener('mouseleave', () => { hovered = false; sync(); });
+      carousel.addEventListener('focusin', () => { focused = true; sync(); });
+      carousel.addEventListener('focusout', (event) => { focused = event.relatedTarget instanceof Node && carousel.contains(event.relatedTarget); sync(); });
+      carousel.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        move(current + (event.key === 'ArrowRight' ? 1 : -1));
+      });
+      const onVisibility = () => sync();
+      const onMotion = () => { paused = reducedMotion.matches; sync(); };
+      document.addEventListener('visibilitychange', onVisibility);
+      reducedMotion.addEventListener('change', onMotion);
+      document.addEventListener('astro:before-swap', () => {
+        clearInterval(timer);
+        document.removeEventListener('visibilitychange', onVisibility);
+        reducedMotion.removeEventListener('change', onMotion);
+      }, { once: true });
+      sync();
+    });
+  }
+  document.addEventListener('astro:page-load', initCarousels);
+  initCarousels();
+</script>
