@@ -15,7 +15,7 @@ if (configuredSite) {
 export default defineConfig({
   vite: { cacheDir: '.astro/vite' },
   ...(site ? { site } : {}),
-  base: '/colegio-bilingue-minas-demo',
+  base: '/demo-institucion-01',
   output: 'static',
   trailingSlash: 'always',
   i18n: {

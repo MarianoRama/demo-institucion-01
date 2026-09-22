@@ -16,7 +16,7 @@ export const ui = {
       cta: 'Solicitar información',
     },
     footer: {
-      tagline: 'Educación bilingüe de doble horario, laica, de Maternal a Primaria, en Minas, Lavalleja.',
+      tagline: 'Educación bilingüe de doble horario, laica, de Maternal a Primaria.',
       contacto: 'Contacto',
       seguinos: 'Seguinos',
       rights: 'Todos los derechos reservados.',
@@ -35,7 +35,7 @@ export const ui = {
       cta: 'Request information',
     },
     footer: {
-      tagline: 'Secular, full-day bilingual education, from Nursery to Primary school, in Minas, Lavalleja.',
+      tagline: 'Secular, full-day bilingual education, from Nursery to Primary school.',
       contacto: 'Contact',
       seguinos: 'Follow us',
       rights: 'All rights reserved.',

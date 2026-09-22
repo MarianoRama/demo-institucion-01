@@ -13,7 +13,7 @@ const address = en ? '[Address to be confirmed]' : '[Dirección a confirmar]';
 
 <Layout
   title={en ? 'Contact' : 'Contacto'}
-  description={en ? 'Contact Colegio Bilingüe de Minas in Minas, Lavalleja, Uruguay. Find our address, phone numbers, email and map.' : 'Contactá al Colegio Bilingüe de Minas en Minas, Lavalleja, Uruguay. Encontrá nuestra dirección, teléfonos, correo y mapa.'}
+  description={en ? 'Contact [Nombre de la institución]. Find our address, phone numbers, email and map.' : 'Contactá al [Nombre de la institución]. Encontrá nuestra dirección, teléfonos, correo y mapa.'}
   locale={locale}
 >
   <section class="page-intro contact-intro">
@@ -51,7 +51,7 @@ const address = en ? '[Address to be confirmed]' : '[Dirección a confirmar]';
         <div class="address-card card">
           <div class="address-copy stack">
             <span class="card-label">{en ? 'Visit us' : 'Visitanos'}</span>
-            <h2>{en ? 'Find us in Minas.' : 'Encontranos en Minas.'}</h2>
+            <h2>{en ? 'Find us.' : 'Encontranos.'}</h2>
             <address>{address}</address>
           </div>
         </div>

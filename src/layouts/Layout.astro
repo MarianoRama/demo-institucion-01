@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { title, description, locale = 'es' } = Astro.props;
-const siteName = locale === 'es' ? 'Colegio Bilingüe de Minas' : 'Bilingual School of Minas';
+const siteName = locale === 'es' ? '[Nombre de la institución]' : '[Institution name]';
 const siteUrl = Astro.site?.toString().replace(/\/$/, '');
 const currentPath = Astro.url.pathname;
 const pathWithoutLocale = locale === 'en' ? currentPath.replace(/^\/en/, '') || '/' : currentPath;
