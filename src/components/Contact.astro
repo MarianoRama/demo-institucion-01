@@ -63,7 +63,16 @@ const address = en ? '[Address to be confirmed]' : '[Dirección a confirmar]';
         </div>
       </div>
       <div class="map-wrap">
-        <div class="map-embed map-placeholder">{en ? 'Map (added once the address is confirmed)' : 'Mapa (se agrega al confirmar la dirección)'}</div>
+        <div class="map-shell">
+          <iframe
+            class="map-embed"
+            title={en ? 'Reference map, real address to be confirmed' : 'Mapa de referencia, dirección real a confirmar'}
+            src="https://www.google.com/maps?q=Plaza+Independencia,+Montevideo,+Uruguay&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+          <span class="sample-badge">{en ? 'Sample location' : 'Ubicación de muestra'}</span>
+        </div>
       </div>
     </div>
   </section>
@@ -91,8 +100,8 @@ const address = en ? '[Address to be confirmed]' : '[Dirección a confirmar]';
   .social-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 4px 3px; }
   .social-row .actions { gap: 28px; }
   .map-wrap { position: sticky; top: 125px; }
-  .map-embed { display: block; width: 100%; min-height: 585px; border: 0; border-radius: 16px; background: var(--cream-2); }
-  .map-placeholder { display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; color: var(--muted); font-size: 14px; }
+  .map-shell { position: relative; border-radius: 16px; overflow: hidden; }
+  .map-embed { display: block; width: 100%; min-height: 585px; border: 0; background: var(--cream-2); }
   .map-caption { padding-top: 12px; color: var(--muted); font-size: 12px; }
   @media (max-width: 1050px) {
     .contact-layout { grid-template-columns: 1fr; gap: 45px; }

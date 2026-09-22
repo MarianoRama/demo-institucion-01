@@ -11,12 +11,12 @@ const activities=en?[['01','Technology & robotics','Ideas that become projects.'
 <Layout title={en?'Home':'Inicio'} description={en?'A place to grow in two languages. Discover [Nombre de la institución]: nursery, early years and primary education.':'Un lugar para crecer en dos idiomas. Conocé el [Nombre de la institución]: Maternal, Inicial y Primaria.'} locale={locale}>
 <section class="home-hero">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><clipPath id="heroPhotoBlob" clipPathUnits="objectBoundingBox"><path d="M 0.12,0.04 C 0.36,-0.03 0.66,0.0 0.86,0.09 C 1.03,0.16 1.0,0.36 0.97,0.56 C 0.94,0.79 0.91,0.96 0.64,0.99 C 0.39,1.02 0.14,0.97 0.05,0.79 C -0.03,0.6 -0.02,0.29 0.03,0.14 C 0.05,0.08 0.08,0.05 0.12,0.04 Z" /></clipPath></defs></svg>
-<svg class="hero-blob" viewBox="0 0 1200 820" preserveAspectRatio="none" aria-hidden="true"><path d="M-40,120 C160,10 420,-40 660,50 C920,148 1030,40 1220,140 L1240,860 L-60,860 Z"/></svg>
+<svg class="hero-blob" viewBox="0 0 1200 900" preserveAspectRatio="none" aria-hidden="true"><path d="M-20,300 C180,170 380,90 620,130 C860,170 1000,90 1220,160 L1220,920 L-20,920 Z"/></svg>
 <div class="container hero-grid">
 <div class="hero-copy stack">
 <span class="eyebrow"><span class="little-line"></span>{en?'Bilingual education':'Educación bilingüe'}</span>
-<h1>{en?'Big smiles!!':'¡Alta pinta!'}<em>{en?'A place to grow, a world to discover.':'Un lugar para crecer. Un mundo por descubrir.'}</em></h1>
-<p class="lead">{en?'Learning in two languages. Growing with others. Bilingual school doesn’t start on Monday.':'Aprender en dos idiomas. Crecer junto a otros. Lo bilingüe no se empieza solo un lunes.'}</p>
+<h1>{en?'A place to grow.':'Un lugar para crecer.'}<em>{en?'A world to discover.':'Un mundo por descubrir.'}</em></h1>
+<p class="lead">{en?'Learning in two languages. Growing with others. A school that is part of childhood, from the very first steps.':'Aprender en dos idiomas. Crecer junto a otros. Un colegio que acompaña la infancia, desde los primeros pasos.'}</p>
 <div class="actions"><a class="btn btn--primary btn--pill" href={p('/propuesta-educativa/')}>{en?'Our program':'Sobre nosotros'}</a><a class="hero-secondary" href={p('/contacto/')}>{en?'Let’s talk':'Hablemos'} <span aria-hidden="true">→</span></a></div>
 <div class="hero-note"><span aria-hidden="true">✳</span><p>{en?'Nursery · Early years · Primary':'Maternal · Inicial · Primaria'}<small>{en?'Two languages. Shared experiences.':'Dos idiomas. Muchas experiencias compartidas.'}</small></p></div>
 </div>
@@ -42,7 +42,7 @@ const activities=en?[['01','Technology & robotics','Ideas that become projects.'
 <style>
 .home-hero{position:relative;padding:76px 0 96px;overflow:hidden}
 .hero-blob{position:absolute;inset:-40px -10% auto -10%;width:120%;height:110%;z-index:0}
-.hero-blob path{fill:var(--cream-2)}
+.hero-blob path{fill:var(--accent-light)}
 .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:68px;align-items:center}
 .hero-copy{gap:24px}
 .hero-copy h1{font-size:clamp(3.4rem,5.6vw,5rem);line-height:.98;letter-spacing:-.03em;color:var(--accent)}
