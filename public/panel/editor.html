@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Panel de fotos</title>
+<style>
+  :root { --accent: #8C2F44; --accent-dark: #4A1220; --cream: #FAF6F0; --cream2: #F2E7DB; --ink: #2B2320; --muted: #8A7A68; --border: #E9E0D6; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--cream); font-family: 'Inter', Arial, sans-serif; color: var(--ink); }
+  header { background: var(--accent-dark); color: #FFF8F1; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+  header h1 { font-size: 17px; margin: 0; }
+  header button { background: transparent; color: #F5EBE4; border: 1px solid rgba(245,235,228,.5); border-radius: 6px; padding: 8px 14px; cursor: pointer; font-size: 13px; }
+  main { max-width: 980px; margin: 0 auto; padding: 28px 24px 100px 24px; }
+  .intro { color: var(--muted); font-size: 14px; margin: 0 0 32px 0; }
+  section.block { margin-bottom: 44px; }
+  h2 { font-size: 18px; margin: 0 0 4px 0; }
+  h2 small { display: block; font-size: 12px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+  .single-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-top: 16px; }
+  .card { background: #fff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .card img { width: 100%; height: 130px; object-fit: cover; display: block; background: var(--cream2); }
+  .card-body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .card-label { font-size: 12px; font-weight: 600; }
+  .card input[type="file"] { font-size: 11px; width: 100%; }
+  .card button { padding: 8px; background: var(--accent); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .card button.remove { background: transparent; color: #a3302f; border: 1px solid #e2b9b8; }
+  .card button:disabled { opacity: .6; cursor: default; }
+  .status { font-size: 11px; margin: 0; min-height: 14px; }
+  .status.ok { color: #2f6b3a; }
+  .status.err { color: #a3302f; }
+  .add-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 130px; border: 1.5px dashed var(--border); border-radius: 12px; background: #fff; padding: 16px; text-align: center; }
+  .add-card span { font-size: 12px; color: var(--muted); }
+  .add-card input[type="file"] { font-size: 11px; width: 100%; }
+  .add-card button { padding: 8px 12px; background: var(--accent); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .loading { padding: 40px; text-align: center; color: var(--muted); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Panel de fotos del colegio</h1>
+    <button id="logoutBtn">Salir</button>
+  </header>
+  <main>
+    <p class="intro">Las secciones de arriba son fotos únicas (reemplazan siempre la misma). Las de abajo son galerías: podés agregar todas las fotos que quieras o sacar las que ya no sirvan.</p>
+    <div id="content"><p class="loading">Cargando…</p></div>
+  </main>
+  <script>
+    const content = document.getElementById('content');
+
+    function singleCard(slot) {
+      const el = document.createElement('div');
+      el.className = 'card';
+      el.innerHTML = `
+        <img src="${slot.previewUrl}" alt="${slot.label}" loading="lazy" />
+        <div class="card-body">
+          <span class="card-label">${slot.label}</span>
+          <input type="file" accept="image/jpeg,image/png,image/webp" data-single="${slot.id}" />
+          <button type="button" data-single-btn="${slot.id}">Reemplazar</button>
+          <p class="status" data-single-status="${slot.id}"></p>
+        </div>`;
+      return el;
+    }
+
+    function galleryPhotoCard(categoryId, photo) {
+      const el = document.createElement('div');
+      el.className = 'card';
+      el.innerHTML = `
+        <img src="${photo.url}" alt="" loading="lazy" />
+        <div class="card-body">
+          <button type="button" class="remove" data-remove-category="${categoryId}" data-remove-file="${photo.filename}">Sacar foto</button>
+          <p class="status"></p>
+        </div>`;
+      return el;
+    }
+
+    function addCard(categoryId) {
+      const el = document.createElement('div');
+      el.className = 'add-card';
+      el.innerHTML = `
+        <span>Agregar foto nueva</span>
+        <input type="file" accept="image/jpeg,image/png,image/webp" data-add="${categoryId}" />
+        <button type="button" data-add-btn="${categoryId}">Agregar</button>
+        <p class="status" data-add-status="${categoryId}"></p>`;
+      return el;
+    }
+
+    async function loadAll() {
+      const res = await fetch('/api/slots');
+      if (res.status === 401) {
+        window.location.href = '/panel/index.html';
+        return;
+      }
+      const data = await res.json();
+      if (!res.ok || !data.single || !data.galleries) {
+        content.innerHTML = `<p class="status err" style="font-size:14px;">No se pudieron cargar las fotos. ${data.error || ''}</p>`;
+        return;
+      }
+      const { single, galleries } = data;
+      content.innerHTML = '';
+
+      const singleSection = document.createElement('section');
+      singleSection.className = 'block';
+      singleSection.innerHTML = `<h2>Fotos únicas<small>Logo, portada y cada nivel</small></h2>`;
+      const singleGrid = document.createElement('div');
+      singleGrid.className = 'single-grid';
+      single.forEach((slot) => singleGrid.appendChild(singleCard(slot)));
+      singleSection.appendChild(singleGrid);
+      content.appendChild(singleSection);
+
+      galleries.forEach((cat) => {
+        const section = document.createElement('section');
+        section.className = 'block';
+        section.innerHTML = `<h2>${cat.label}<small>${cat.photos.length} foto${cat.photos.length === 1 ? '' : 's'}</small></h2>`;
+        const grid = document.createElement('div');
+        grid.className = 'gallery-grid';
+        cat.photos.forEach((photo) => grid.appendChild(galleryPhotoCard(cat.id, photo)));
+        grid.appendChild(addCard(cat.id));
+        section.appendChild(grid);
+        content.appendChild(section);
+      });
+
+      wireEvents();
+    }
+
+    function wireEvents() {
+      content.querySelectorAll('[data-single-btn]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.singleBtn;
+          const input = content.querySelector(`input[data-single="${id}"]`);
+          const statusEl = content.querySelector(`[data-single-status="${id}"]`);
+          const file = input.files[0];
+          if (!file) { statusEl.textContent = 'Elegí un archivo primero.'; statusEl.className = 'status err'; return; }
+          btn.disabled = true;
+          statusEl.textContent = 'Subiendo…'; statusEl.className = 'status';
+          const formData = new FormData();
+          formData.append('slotId', id);
+          formData.append('file', file);
+          try {
+            const res = await fetch('/api/upload', { method: 'POST', body: formData });
+            const data = await res.json();
+            if (res.ok) { statusEl.textContent = 'Listo.'; statusEl.className = 'status ok'; }
+            else { statusEl.textContent = data.error || 'No se pudo subir.'; statusEl.className = 'status err'; }
+          } catch { statusEl.textContent = 'Error de conexión.'; statusEl.className = 'status err'; }
+          btn.disabled = false;
+        });
+      });
+
+      content.querySelectorAll('[data-add-btn]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const category = btn.dataset.addBtn;
+          const input = content.querySelector(`input[data-add="${category}"]`);
+          const statusEl = content.querySelector(`[data-add-status="${category}"]`);
+          const file = input.files[0];
+          if (!file) { statusEl.textContent = 'Elegí un archivo primero.'; statusEl.className = 'status err'; return; }
+          btn.disabled = true;
+          statusEl.textContent = 'Agregando…'; statusEl.className = 'status';
+          const formData = new FormData();
+          formData.append('category', category);
+          formData.append('file', file);
+          try {
+            const res = await fetch('/api/gallery-add', { method: 'POST', body: formData });
+            const data = await res.json();
+            if (res.ok) { await loadAll(); }
+            else { statusEl.textContent = data.error || 'No se pudo agregar.'; statusEl.className = 'status err'; btn.disabled = false; }
+          } catch { statusEl.textContent = 'Error de conexión.'; statusEl.className = 'status err'; btn.disabled = false; }
+        });
+      });
+
+      content.querySelectorAll('[data-remove-category]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('¿Sacar esta foto?')) return;
+          const category = btn.dataset.removeCategory;
+          const filename = btn.dataset.removeFile;
+          btn.disabled = true;
+          try {
+            const res = await fetch('/api/gallery-remove', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ category, filename }),
+            });
+            if (res.ok) { await loadAll(); }
+            else { btn.disabled = false; alert('No se pudo sacar la foto.'); }
+          } catch { btn.disabled = false; alert('Error de conexión.'); }
+        });
+      });
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/logout', { method: 'POST' });
+      window.location.href = '/panel/index.html';
+    });
+
+    loadAll();
+  </script>
+</body>
+</html>
