@@ -1,6 +1,6 @@
 {
   "robotica": ["sample-robotica-1.jpg", "sample-robotica-2.jpg"],
   "arte": ["sample-arte-1.jpg", "sample-arte-2.jpg", "sample-arte-3.jpg"],
-  "salidas": ["sample-general-1.jpg", "sample-general-2.jpg", "sample-general-3.jpg"],
-  "galeria": ["sample-general-1.jpg", "sample-general-2.jpg", "sample-general-3.jpg", "sample-maternal.jpg"]
+  "salidas": ["sample-general-1.jpg", "sample-general-2.jpg"],
+  "galeria": ["sample-galeria-1.jpg", "sample-general-1.jpg", "sample-general-2.jpg", "sample-general-3.jpg"]
 }
