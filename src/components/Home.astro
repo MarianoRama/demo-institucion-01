@@ -10,8 +10,7 @@ const activities=en?[['01','Technology & robotics','Ideas that become projects.'
 ---
 <Layout title={en?'Home':'Inicio'} description={en?'A place to grow in two languages. Discover [Nombre de la institución]: nursery, early years and primary education.':'Un lugar para crecer en dos idiomas. Conocé el [Nombre de la institución]: Maternal, Inicial y Primaria.'} locale={locale}>
 <section class="home-hero">
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><clipPath id="heroPhotoBlob" clipPathUnits="objectBoundingBox"><path d="M 0.12,0.04 C 0.36,-0.03 0.66,0.0 0.86,0.09 C 1.03,0.16 1.0,0.36 0.97,0.56 C 0.94,0.79 0.91,0.96 0.64,0.99 C 0.39,1.02 0.14,0.97 0.05,0.79 C -0.03,0.6 -0.02,0.29 0.03,0.14 C 0.05,0.08 0.08,0.05 0.12,0.04 Z" /></clipPath></defs></svg>
-<svg class="hero-blob" viewBox="0 0 1200 900" preserveAspectRatio="none" aria-hidden="true"><path d="M-20,300 C180,170 380,90 620,130 C860,170 1000,90 1220,160 L1220,920 L-20,920 Z"/></svg>
+<svg class="hero-blob" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true"><path d="M0,140 Q420,40 760,110 L1200,20 L1200,800 L0,800 Z"/></svg>
 <div class="container hero-grid">
 <div class="hero-copy stack">
 <span class="eyebrow"><span class="little-line"></span>{en?'Bilingual education':'Educación bilingüe'}</span>
@@ -21,7 +20,7 @@ const activities=en?[['01','Technology & robotics','Ideas that become projects.'
 <div class="hero-note"><span aria-hidden="true">✳</span><p>{en?'Nursery · Early years · Primary':'Maternal · Inicial · Primaria'}<small>{en?'Two languages. Shared experiences.':'Dos idiomas. Muchas experiencias compartidas.'}</small></p></div>
 </div>
 <div class="hero-visual">
-<div class="hero-photo"><img src={withBase('/images/sample-general-1.jpg')} alt={en?'Stock sample photo, to be replaced':'Foto de stock de muestra, a reemplazar'} width="1555" height="849" fetchpriority="high"/><span class="sample-badge">{en?'Sample photo':'Foto de muestra'}</span></div>
+<div class="hero-photo"><img src={withBase('/images/sample-general-1.jpg')} alt={en?'Stock sample photo, to be replaced':'Foto de stock de muestra, a reemplazar'} width="1555" height="849" fetchpriority="high"/><span class="sample-badge">{en?'Sample photo':'Foto de muestra'}</span><div class="photo-caption"><span class="photo-dot"></span>{en?'Our school. Our community.':'Nuestro colegio. Nuestra comunidad.'}</div></div>
 <div class="floating-note"><span>Hello!</span><strong>¡Hola!</strong><small>{en?'Two languages, every day.':'Dos idiomas, todos los días.'}</small></div>
 <svg class="hero-seal" viewBox="0 0 140 140" aria-hidden="true">
 <path id="sealCircle" fill="none" d="M 70,70 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0" />
@@ -41,25 +40,28 @@ const activities=en?[['01','Technology & robotics','Ideas that become projects.'
 </Layout>
 <style>
 .home-hero{position:relative;padding:76px 0 96px;overflow:hidden}
-.hero-blob{position:absolute;inset:-40px -10% auto -10%;width:120%;height:110%;z-index:0}
-.hero-blob path{fill:var(--accent-light)}
+.hero-blob{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero-blob path{fill:var(--accent)}
 .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:68px;align-items:center}
 .hero-copy{gap:24px}
-.hero-copy h1{font-size:clamp(3.4rem,5.6vw,5rem);line-height:.98;letter-spacing:-.03em;color:var(--accent)}
-.hero-copy h1 em{display:block;font-style:normal;font-weight:400;font-size:clamp(1.35rem,2vw,1.65rem);letter-spacing:-.005em;color:var(--ink);margin-top:16px;line-height:1.35;max-width:430px}
-.hero-copy .lead{max-width:440px;font-size:15px}
-.hero-copy .eyebrow{display:flex;align-items:center;gap:10px;font-size:10px}
-.little-line{width:22px;height:1px;background:var(--accent)}
-.btn--pill{border-radius:999px;padding:16px 32px}
-.hero-secondary{font-size:13px;font-weight:600;padding:16px}
+.hero-copy h1{font-size:clamp(3.4rem,5.6vw,5rem);line-height:.98;letter-spacing:-.03em;color:var(--cream)}
+.hero-copy h1 em{display:block;font-style:normal;font-weight:400;font-size:clamp(1.35rem,2vw,1.65rem);letter-spacing:-.005em;color:var(--accent-light);margin-top:16px;line-height:1.35;max-width:430px}
+.hero-copy .lead{max-width:440px;font-size:15px;color:#f1dfe0}
+.hero-copy .eyebrow{display:flex;align-items:center;gap:10px;font-size:10px;color:var(--accent-light)}
+.little-line{width:22px;height:1px;background:var(--accent-light)}
+.btn--pill{border-radius:999px;padding:16px 32px;background:var(--cream);color:var(--accent-dark)}
+.btn--pill:hover{background:var(--accent-light)}
+.hero-secondary{font-size:13px;font-weight:600;padding:16px;color:var(--cream)}
 .hero-secondary span{margin-left:14px}
 .hero-note{display:flex;gap:14px;align-items:center;margin-top:6px}
-.hero-note>span{font-size:36px;color:var(--accent)}
-.hero-note p{font-size:11px;font-weight:600}
-.hero-note small{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-top:2px}
+.hero-note>span{font-size:36px;color:var(--accent-light)}
+.hero-note p{font-size:11px;font-weight:600;color:var(--cream)}
+.hero-note small{display:block;font-size:10px;color:#e2c9cb;font-weight:400;margin-top:2px}
 .hero-visual{position:relative;padding:20px 34px 40px 6px}
-.hero-photo{height:520px;position:relative;overflow:hidden;background:var(--cream-2);clip-path:url(#heroPhotoBlob);-webkit-clip-path:url(#heroPhotoBlob)}
+.hero-photo{height:480px;position:relative;overflow:hidden;border-radius:130px 14px 14px 14px;background:var(--cream-2)}
 .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:45% 50%}
+.photo-caption{position:absolute;bottom:0;left:0;right:0;padding:42px 22px 20px;background:linear-gradient(transparent,#241920b3);color:#fff;font-size:10px;display:flex;align-items:center;gap:8px}
+.photo-dot{width:5px;height:5px;border-radius:50%;background:#fff}
 .floating-note{position:absolute;left:-30px;top:44px;background:#ecebdc;padding:19px 23px;border-radius:10px;transform:rotate(-7deg);box-shadow:0 6px 20px #38201712;z-index:2}
 .floating-note span,.floating-note strong{display:block;font-family:var(--font-display);font-size:30px;font-weight:400;line-height:1.05}
 .floating-note span{color:var(--accent)}
@@ -72,6 +74,6 @@ const activities=en?[['01','Technology & robotics','Ideas that become projects.'
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.hero-seal{animation:none}}
 .values-strip{border-block:1px solid var(--border);padding:25px 0}.values-strip .container{display:flex;align-items:center;justify-content:space-between;gap:20px}.values-strip span{font-size:12px}.values-strip i{font-size:22px;color:var(--accent);font-style:normal}.level-card{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px;padding:28px;background:#f1ede4;transition:transform .2s,box-shadow .2s}.level-card:nth-child(2){background:#e8ecdf}.level-card:nth-child(3){background:#f3e5df}.level-card:hover{transform:translateY(-5px);box-shadow:0 12px 25px #4218290b}.level-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}.level-top>span:first-child{font-size:10px;color:var(--muted)}.level-symbol{font-size:51px;color:var(--accent);line-height:1}.inicial{color:#627052}.primaria{color:#ae644b}.level-card h3{font-size:32px;margin-bottom:12px}.level-card strong{font-size:13px;font-weight:500;margin-bottom:8px}.level-card p{font-size:13px;color:var(--ink-soft);max-width:270px;margin-bottom:28px}.level-link{display:flex;justify-content:space-between;border-top:1px solid #302c2926;padding-top:18px;margin-top:auto;font-size:11px;font-weight:700}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center}.about-photo{height:530px;border-radius:14px 14px 120px 14px}.image-tag{position:absolute;left:18px;bottom:20px;right:18px;width:fit-content;background:var(--cream);padding:11px 14px;font-size:10px;border-radius:4px}.about-copy{gap:25px}.principle{display:flex;gap:20px;align-items:start;padding-top:18px;border-top:1px solid var(--border)}.principle>span{font-size:11px;color:var(--accent);padding-top:5px}.principle h3{font-size:20px;margin-bottom:5px}.principle p{font-size:13px;color:var(--ink-soft)}.life-grid{display:grid;grid-template-columns:.9fr 1fr;gap:100px}.activity-list>a{display:flex;gap:20px;align-items:center;padding:24px 0;border-bottom:1px solid var(--border)}.activity-list>a:first-child{border-top:1px solid var(--border)}.activity-list>a>span{font-size:10px;color:var(--accent)}.activity-list h3{font-size:23px}.activity-list p{font-size:12px;color:var(--muted);margin-top:6px}.activity-list b{margin-left:auto;font-size:20px;font-weight:400}.activity-list a:hover h3{color:var(--accent)}
-@media(min-width:1450px){.hero-photo{height:560px}}@media(max-width:1100px){.hero-grid{gap:40px}.hero-photo{height:460px}.hero-copy h1{font-size:clamp(2.8rem,5vw,3.8rem)}.about-grid,.life-grid{gap:45px}}@media(max-width:760px){.home-hero{padding:44px 0 40px}.hero-grid{grid-template-columns:1fr;gap:34px}.hero-copy h1{font-size:clamp(2.6rem,10vw,3.6rem)}.hero-copy h1 em{max-width:100%}.hero-copy{gap:22px}.hero-copy .lead{max-width:500px}.hero-visual{margin-left:14px;margin-right:14px;padding:18px 18px 30px 0}.hero-photo{height:340px}.floating-note{top:26px;left:-14px;padding:14px 17px}.floating-note span,.floating-note strong{font-size:22px}.hero-seal{width:92px;height:92px;right:-4px;bottom:0}.hero-note{margin-top:0}.values-strip .container{display:grid;grid-template-columns:1fr 1fr;gap:20px}.values-strip i{display:none}.values-strip span{font-size:11px}.about-grid,.life-grid{grid-template-columns:1fr;gap:32px}.about-photo{height:380px}.level-card{padding:24px}.level-top{margin-bottom:20px}.level-card p{max-width:none}.hero-note small{font-size:11px}}
+@media(min-width:1450px){.hero-photo{height:560px}}@media(max-width:1100px){.hero-grid{gap:40px}.hero-photo{height:460px}.hero-copy h1{font-size:clamp(2.8rem,5vw,3.8rem)}.about-grid,.life-grid{gap:45px}}@media(max-width:760px){.home-hero{padding:44px 0 40px}.hero-grid{grid-template-columns:1fr;gap:34px}.hero-copy h1{font-size:clamp(2.6rem,10vw,3.6rem)}.hero-copy h1 em{max-width:100%}.hero-copy{gap:22px}.hero-copy .lead{max-width:500px}.hero-visual{margin-left:14px;margin-right:14px;padding:18px 18px 30px 0}.hero-photo{height:340px;border-top-left-radius:90px}.floating-note{top:26px;left:-14px;padding:14px 17px}.floating-note span,.floating-note strong{font-size:22px}.hero-seal{width:92px;height:92px;right:-4px;bottom:0}.hero-note{margin-top:0}.values-strip .container{display:grid;grid-template-columns:1fr 1fr;gap:20px}.values-strip i{display:none}.values-strip span{font-size:11px}.about-grid,.life-grid{grid-template-columns:1fr;gap:32px}.about-photo{height:380px}.level-card{padding:24px}.level-top{margin-bottom:20px}.level-card p{max-width:none}.hero-note small{font-size:11px}}
 </style>
 

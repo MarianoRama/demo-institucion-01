@@ -34,39 +34,117 @@ const photos=photosManifest.galeria.map((src)=>({src,title:en?'Sample photo':'Fo
 <div class="container program-note"><p>{en?'Ask the school about ages, schedules and availability for each level.':'Consultá con el colegio las edades de ingreso, los horarios y la disponibilidad de cada nivel.'}</p><a href={p('/contacto/')}>{en?'Contact the school':'Contactar al colegio'} ↗</a></div>
 </>}
 {page==='actividades'&&<>
-<section class="section"><div class="container activities">{activities.map(([title,text,slides],i)=><article id={'actividad-'+(i+1)} class="activity-detail"><div class="activity-media"><Carousel slides={slides as string[]} label={title as string} ratio="4 / 3"/></div><div class="stack"><span class="eyebrow">0{i+1} / {en?'Explore & learn':'Explorar y aprender'}</span><h2>{title}</h2><p class="lead">{text}</p></div></article>)}<article id="actividad-4" class="theatre-block"><div class="stack theatre-heading"><span class="eyebrow">04 / {en?'A year of stories':'Un año de historias'}</span><h2>{en?'Theatre, every year':'Teatro, todos los años'}</h2><p class="lead">{en?'Each year, different groups prepare plays on different themes. A shared experience that brings stories to life on stage.':'Cada año, los distintos grupos preparan obras de teatro sobre diferentes temas. Una experiencia compartida que lleva las historias al escenario.'}</p><div><span class="text-link">{en?'Social links to be confirmed':'Redes a confirmar'}</span></div></div><div class="theatre-video" data-theatre-sequence><video src={withBase('/videos/teatro-telon.mp4')} autoplay muted loop playsinline aria-label={en?'Theater curtain opening':'Telón de teatro abriéndose'} data-seq-video></video><img src={withBase('/images/sample-general-3.jpg')} alt={en?'A moment from a school play':'Un momento de una obra de teatro'} data-seq-photo/><span class="sample-badge">{en?'Sample':'Muestra'}</span></div></article></div></section>
+<section class="section"><div class="container activities">{activities.map(([title,text,slides],i)=><article id={'actividad-'+(i+1)} class="activity-detail"><div class="activity-media"><Carousel slides={slides as string[]} label={title as string} ratio="4 / 3"/></div><div class="stack"><span class="eyebrow">0{i+1} / {en?'Explore & learn':'Explorar y aprender'}</span><h2>{title}</h2><p class="lead">{text}</p></div></article>)}<article id="actividad-4" class="theatre-block"><div class="stack theatre-heading"><span class="eyebrow">04 / {en?'A year of stories':'Un año de historias'}</span><h2>{en?'Theatre, every year':'Teatro, todos los años'}</h2><p class="lead">{en?'Each year, different groups prepare plays on different themes. A shared experience that brings stories to life on stage.':'Cada año, los distintos grupos preparan obras de teatro sobre diferentes temas. Una experiencia compartida que lleva las historias al escenario.'}</p><div><span class="text-link">{en?'Social links to be confirmed':'Redes a confirmar'}</span></div></div><div class="theatre-video" data-theatre-sequence>
+<video src={withBase('/videos/teatro-telon.mp4')} muted playsinline preload="metadata" aria-label={en?'Theater curtain opening':'Telón de teatro abriéndose'} data-seq-video data-active></video>
+<img src={withBase('/images/sample-general-3.jpg')} alt={en?'A moment from a school play':'Un momento de una obra de teatro'} data-seq-photo/>
+<span class="sample-badge">{en?'Sample':'Muestra'}</span>
+<button type="button" class="theatre-arrow theatre-prev" aria-label={en?'Previous':'Anterior'} data-seq-prev>‹</button>
+<button type="button" class="theatre-arrow theatre-next" aria-label={en?'Next':'Siguiente'} data-seq-next>›</button>
+<div class="theatre-dots" role="group" aria-label={en?'Choose a scene':'Elegir una escena'}>
+<button type="button" class="theatre-dot" aria-label={en?'Curtain video':'Video del telón'} data-seq-dot="0"></button>
+<button type="button" class="theatre-dot" aria-label={en?'Play photo':'Foto de la obra'} data-seq-dot="1"></button>
+</div>
+</div></article></div></section>
 </>}
 {page==='galeria'&&<section class="section"><div class="container"><div class="gallery-grid">{photos.map((f,i)=><figure class="gallery-item"><a href={withBase('/images/'+f.src)} target="_blank" rel="noopener" aria-label={en?`Open full photo: ${f.title}`:`Abrir foto completa: ${f.title}`}><img src={withBase('/images/'+f.src)} alt={f.alt} loading={i===0?'eager':'lazy'}/><span class="sample-badge">{en?'Sample photo':'Foto de muestra'}</span><span class="expand" aria-hidden="true">↗</span></a><figcaption><span>0{i+1}</span>{f.title}</figcaption></figure>)}</div><div class="gallery-end"><p class="lead">{en?'More moments from our school community.':'Más momentos de nuestra comunidad.'}</p><span class="btn btn--outline">{en?'Social links to be confirmed':'Redes a confirmar'}</span></div></div></section>}
 <Visit locale={locale}/>
 </Layout>
 <style>
-.story-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:65px;align-items:center}.story-photo{height:470px;border-top-left-radius:100px}.value-card{padding:15px 30px 15px 0;border-top:1px solid var(--border)}.value-card .lead{font-size:15px}.program-summary{display:grid;grid-template-columns:1fr 2fr;gap:40px;align-items:start;margin-bottom:45px}.program-summary p{font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.35;letter-spacing:-.02em}.program-summary .eyebrow{padding-top:10px}.levels-jump{display:flex;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border)}.levels-jump a{font-size:13px;display:flex;gap:40px;padding:15px 20px;border:1px solid var(--border);border-radius:6px}.levels-jump a:hover{background:var(--cream-2)}.level-detail{display:grid;grid-template-columns:1fr 1fr;gap:75px;align-items:center;padding:60px 0;border-bottom:1px solid var(--border);scroll-margin-top:110px}.level-detail:nth-of-type(even) .level-photo{order:2}.level-photo{height:350px}.learning-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}.learning-tags li{padding:9px 12px;border:1px solid var(--border);border-radius:30px;font-size:11px}.program-note{display:flex;justify-content:space-between;gap:30px;padding:26px 0 60px;font-size:13px;color:var(--ink-soft)}.program-note a{text-decoration:underline;flex-shrink:0}.activities{display:flex;flex-direction:column;gap:75px}.activity-detail{display:grid;grid-template-columns:1.1fr 1fr;gap:70px;align-items:center;scroll-margin-top:110px}.activity-detail:nth-child(even) .activity-media{order:2}.activity-media{min-width:0}.theatre-block{scroll-margin-top:110px}.theatre-heading{max-width:640px;margin:0 auto 32px auto;text-align:center;align-items:center}.theatre-heading .lead{max-width:520px}.theatre-video{position:relative;width:100%;max-width:1160px;margin:0 auto;border-radius:20px;overflow:hidden;aspect-ratio:16/9;background:var(--accent-dark)}.theatre-video video,.theatre-video img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 1.1s ease}.theatre-video video[data-active],.theatre-video img[data-active]{opacity:1}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}.gallery-item{margin:0;min-width:0}.gallery-item a{display:block;position:relative;border-radius:14px;overflow:hidden;background:var(--cream-2);aspect-ratio:4/3}.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s}.gallery-item a:hover img{transform:scale(1.025)}.expand{position:absolute;right:16px;bottom:16px;background:var(--cream);padding:10px 15px;border-radius:50%;font-size:18px}.gallery-item figcaption{display:flex;gap:18px;align-items:center;padding-top:14px;font-family:var(--font-display);font-size:22px}.gallery-item figcaption>span{font-family:var(--font-sans);font-size:10px;color:var(--muted)}.gallery-end{display:flex;justify-content:space-between;gap:24px;align-items:center;border-top:1px solid var(--border);margin-top:55px;padding-top:30px}
+.story-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:65px;align-items:center}.story-photo{height:470px;border-top-left-radius:100px}.value-card{padding:15px 30px 15px 0;border-top:1px solid var(--border)}.value-card .lead{font-size:15px}.program-summary{display:grid;grid-template-columns:1fr 2fr;gap:40px;align-items:start;margin-bottom:45px}.program-summary p{font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.35;letter-spacing:-.02em}.program-summary .eyebrow{padding-top:10px}.levels-jump{display:flex;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border)}.levels-jump a{font-size:13px;display:flex;gap:40px;padding:15px 20px;border:1px solid var(--border);border-radius:6px}.levels-jump a:hover{background:var(--cream-2)}.level-detail{display:grid;grid-template-columns:1fr 1fr;gap:75px;align-items:center;padding:60px 0;border-bottom:1px solid var(--border);scroll-margin-top:110px}.level-detail:nth-of-type(even) .level-photo{order:2}.level-photo{height:350px}.learning-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}.learning-tags li{padding:9px 12px;border:1px solid var(--border);border-radius:30px;font-size:11px}.program-note{display:flex;justify-content:space-between;gap:30px;padding:26px 0 60px;font-size:13px;color:var(--ink-soft)}.program-note a{text-decoration:underline;flex-shrink:0}.activities{display:flex;flex-direction:column;gap:75px}.activity-detail{display:grid;grid-template-columns:1.1fr 1fr;gap:70px;align-items:center;scroll-margin-top:110px}.activity-detail:nth-child(even) .activity-media{order:2}.activity-media{min-width:0}.theatre-block{scroll-margin-top:110px}.theatre-heading{max-width:640px;margin:0 auto 32px auto;text-align:center;align-items:center}.theatre-heading .lead{max-width:520px}.theatre-video{position:relative;width:100%;max-width:1160px;margin:0 auto;border-radius:20px;overflow:hidden;aspect-ratio:16/9;background:var(--accent-dark)}.theatre-video video,.theatre-video img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .9s ease}.theatre-video video[data-active],.theatre-video img[data-active]{opacity:1}.theatre-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:40px;height:40px;border-radius:50%;border:none;background:rgba(30,10,18,.55);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}.theatre-arrow:hover{background:rgba(30,10,18,.8)}.theatre-prev{left:16px}.theatre-next{right:16px}.theatre-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:2;display:flex;gap:8px}.theatre-dot{width:9px;height:9px;border-radius:50%;border:1.5px solid #fff;background:rgba(255,255,255,.35);padding:0;cursor:pointer}.theatre-dot[aria-current="true"]{background:#fff}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}.gallery-item{margin:0;min-width:0}.gallery-item a{display:block;position:relative;border-radius:14px;overflow:hidden;background:var(--cream-2);aspect-ratio:4/3}.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s}.gallery-item a:hover img{transform:scale(1.025)}.expand{position:absolute;right:16px;bottom:16px;background:var(--cream);padding:10px 15px;border-radius:50%;font-size:18px}.gallery-item figcaption{display:flex;gap:18px;align-items:center;padding-top:14px;font-family:var(--font-display);font-size:22px}.gallery-item figcaption>span{font-family:var(--font-sans);font-size:10px;color:var(--muted)}.gallery-end{display:flex;justify-content:space-between;gap:24px;align-items:center;border-top:1px solid var(--border);margin-top:55px;padding-top:30px}
 @media(max-width:900px){.story-grid,.level-detail,.activity-detail{gap:35px}.story-photo{height:400px}}@media(max-width:700px){.story-grid,.level-detail,.activity-detail,.program-summary{grid-template-columns:1fr}.story-photo{height:330px}.program-summary{gap:20px}.level-detail{padding:38px 0}.level-detail:nth-of-type(even) .level-photo,.activity-detail:nth-child(even) .activity-media{order:0}.levels-jump{gap:8px}.levels-jump a{padding:12px;gap:16px;font-size:12px}.level-photo{height:280px}.program-note{flex-direction:column;gap:15px}.activities{gap:55px}.gallery-grid{gap:16px;grid-template-columns:repeat(2,1fr)}.gallery-end{flex-direction:column;align-items:start}.theatre-video{border-radius:14px}}
 </style>
 <script>
   function initTheatreSequence() {
-    document.querySelectorAll('[data-theatre-sequence]').forEach((box) => {
-      if ((box as HTMLElement).dataset.initialized) return;
-      (box as HTMLElement).dataset.initialized = 'true';
+    document.querySelectorAll<HTMLElement>('[data-theatre-sequence]').forEach((box) => {
+      if (box.dataset.initialized) return;
+      box.dataset.initialized = 'true';
+
       const video = box.querySelector('[data-seq-video]') as HTMLVideoElement | null;
       const photo = box.querySelector('[data-seq-photo]') as HTMLElement | null;
+      const prevBtn = box.querySelector('[data-seq-prev]') as HTMLButtonElement | null;
+      const nextBtn = box.querySelector('[data-seq-next]') as HTMLButtonElement | null;
+      const dots = Array.from(box.querySelectorAll<HTMLButtonElement>('[data-seq-dot]'));
       if (!video || !photo) return;
-      video.setAttribute('data-active', '');
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-      if (reducedMotion.matches) return;
-      let showingVideo = true;
-      function next() {
-        showingVideo = !showingVideo;
-        if (showingVideo) {
+
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let current = 0; // 0 = video (curtain), 1 = photo
+      let inView = false;
+      let started = false;
+      let autoTimer: ReturnType<typeof setTimeout> | undefined;
+
+      function setDots() {
+        dots.forEach((d, i) => d.setAttribute('aria-current', String(i === current)));
+      }
+
+      function tryPlay() {
+        video.play().catch(() => {
+          const resume = () => { if (current === 0) video.play().catch(() => {}); };
+          ['click', 'scroll', 'touchstart', 'keydown'].forEach((evt) =>
+            document.addEventListener(evt, resume, { once: true, passive: true })
+          );
+        });
+      }
+
+      function show(index: number, { restartVideo = false } = {}) {
+        clearTimeout(autoTimer);
+        current = index;
+        setDots();
+        if (index === 0) {
           photo.removeAttribute('data-active');
           video.setAttribute('data-active', '');
+          if (restartVideo) video.currentTime = 0;
+          if (inView && !reducedMotion) tryPlay();
         } else {
           video.removeAttribute('data-active');
+          video.pause();
           photo.setAttribute('data-active', '');
         }
-        setTimeout(next, showingVideo ? 6000 : 4000);
+        if (inView && !reducedMotion) scheduleAuto();
       }
-      setTimeout(next, 6000);
+
+      function scheduleAuto() {
+        clearTimeout(autoTimer);
+        if (current === 1) {
+          autoTimer = setTimeout(() => show(0, { restartVideo: true }), 4500);
+        }
+        // when current === 0 (video), advancing to the photo is driven by the video's own "ended" event
+      }
+
+      function resetClosed() {
+        clearTimeout(autoTimer);
+        video.pause();
+        video.currentTime = 0;
+        current = 0;
+        photo.removeAttribute('data-active');
+        video.setAttribute('data-active', '');
+        setDots();
+      }
+
+      video.addEventListener('ended', () => { if (current === 0) show(1); });
+      prevBtn?.addEventListener('click', () => show(current === 0 ? 1 : 0, { restartVideo: true }));
+      nextBtn?.addEventListener('click', () => show(current === 0 ? 1 : 0, { restartVideo: true }));
+      dots.forEach((dot, i) => dot.addEventListener('click', () => show(i, { restartVideo: i === 0 })));
+
+      resetClosed();
+
+      if (reducedMotion) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          inView = entry.isIntersecting;
+          if (inView && !started) {
+            started = true;
+            show(0, { restartVideo: true });
+          } else if (inView) {
+            if (current === 0) tryPlay();
+            scheduleAuto();
+          } else {
+            clearTimeout(autoTimer);
+            video.pause();
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(box);
     });
   }
   document.addEventListener('astro:page-load', initTheatreSequence);
